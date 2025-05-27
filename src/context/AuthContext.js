@@ -1,11 +1,10 @@
-// src/context/AuthContext.js
 import React, { createContext, useReducer, useContext } from 'react';
 
 const AuthContext = createContext();
 
 const initialState = {
   isAuthenticated: false,
-  user: null, // объект { id, name, email, password, role }
+  user: null,
 };
 
 const authReducer = (state, action) => {
@@ -15,7 +14,7 @@ const authReducer = (state, action) => {
         isAuthenticated: true,
         user: action.payload,
       };
-      localStorage.setItem('auth', JSON.stringify(loginState)); // сохранить
+      localStorage.setItem('auth', JSON.stringify(loginState));
       return loginState;
 
     case 'LOGOUT':
@@ -28,7 +27,7 @@ const authReducer = (state, action) => {
         isAuthenticated: true,
         user: updatedUser,
       };
-      localStorage.setItem('auth', JSON.stringify(updatedState)); // сохранить обновлённого
+      localStorage.setItem('auth', JSON.stringify(updatedState));
       return updatedState;
 
     default:

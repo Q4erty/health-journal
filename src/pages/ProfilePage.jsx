@@ -1,10 +1,12 @@
-// src/pages/ProfilePage.js
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/api';
+import { useLang } from '../context/LanguageContext';
 
 const ProfilePage = () => {
   const { user, dispatch } = useAuth();
+  const { t } = useLang();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -46,25 +48,29 @@ const ProfilePage = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-        const updatedData = {
-            ...user, // ← это важно!
-            ...formData, // обновляем только изменённые поля
-          };
+      const updatedUser = {
+        ...user.user,
+        ...formData
+      };
 
-      await api.patch(`/users/${user.user.id}`, formData);
-        dispatch({
+      await api.patch(`/users/${user.user.id}`, updatedUser);
+
+      dispatch({
         type: 'UPDATE_USER',
-        payload: updatedData, // полный актуальный юзер
-        });
-      alert('Профиль обновлён');
+        payload: updatedUser
+      });
+
+      dispatch({ type: 'LOGOUT' });
+
+      alert(t('profile_updated'));
     } catch (err) {
-      alert('Ошибка при обновлении профиля');
+      alert(t('profile_update_error'));
     }
   };
 
   return (
     <div style={{ maxWidth: '500px', margin: '0 auto' }}>
-      <h2>Профиль пользователя</h2>
+      <h2>{t('profile')}</h2>
       {formData.avatar && (
         <img
           src={formData.avatar}
@@ -81,7 +87,7 @@ const ProfilePage = () => {
         <input
           type="text"
           name="name"
-          placeholder="Имя"
+          placeholder={t('name')}
           value={formData.name}
           onChange={handleChange}
           required
@@ -89,7 +95,7 @@ const ProfilePage = () => {
         <input
           type="email"
           name="email"
-          placeholder="Почта"
+          placeholder={t('email')}
           value={formData.email}
           onChange={handleChange}
           required
@@ -97,12 +103,12 @@ const ProfilePage = () => {
         <input
           type="password"
           name="password"
-          placeholder="Пароль"
+          placeholder={t('password')}
           value={formData.password}
           onChange={handleChange}
           required
         />
-        <button type="submit">Сохранить</button>
+        <button type="submit">{t('save')}</button>
       </form>
     </div>
   );

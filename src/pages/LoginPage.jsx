@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useLang } from '../context/LanguageContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { dispatch } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLang();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,21 +27,31 @@ const LoginPage = () => {
         });
         navigate('/');
       } else {
-        alert('Неверный email или пароль');
+        alert(t('invalid_credentials'));
       }
     } catch (err) {
-      alert('Ошибка входа');
+      alert(t('login_error'));
     }
   };
 
   return (
     <form onSubmit={handleLogin}>
-      <h2>Вход</h2>
-      <input type="email" placeholder="Email" value={email}
-             onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Пароль" value={password}
-             onChange={(e) => setPassword(e.target.value)} required />
-      <button type="submit">Войти</button>
+      <h2>{t('login')}</h2>
+      <input
+        type="email"
+        placeholder={t('email')}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <input
+        type="password"
+        placeholder={t('password')}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <button type="submit">{t('login_button')}</button>
     </form>
   );
 };
