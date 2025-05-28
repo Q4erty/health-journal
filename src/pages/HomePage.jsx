@@ -30,15 +30,15 @@ const HomePage = () => {
       <p>{t('role')}: {user.role}</p>
 
       <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', flexWrap: 'wrap' }}>
-        <div style={cardStyle}>
+        <div className="stat-card">
           <h4>{t('total_entries')}</h4>
           <p>{entries.length}</p>
         </div>
-        <div style={cardStyle}>
+        <div className="stat-card">
           <h4>{t('last_mood')}</h4>
           <p>{entries.length > 0 ? entries[entries.length - 1].mood : t('empty')}</p>
         </div>
-        <div style={cardStyle}>
+        <div className="stat-card">
           <h4>{t('avg_pulse')}</h4>
           <p>
             {

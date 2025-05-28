@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/api';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useLang } from '../context/LanguageContext';
 
 const EditEntryPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useLang();
-
   const [form, setForm] = useState({
     date: '',
     mood: '',
@@ -30,43 +27,69 @@ const EditEntryPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await api.put(`/entries/${id}`, form);
-    alert(t('entryUpdated'));
+    alert('Запись обновлена');
     navigate('/entries');
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{t('editEntry')}</h2>
-      <input
-        name="date"
-        type="date"
-        value={form.date}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="mood"
-        placeholder={t('mood')}
-        value={form.mood}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="pulse"
-        placeholder={t('pulse')}
-        value={form.pulse}
-        onChange={handleChange}
-        required
-      />
-      <textarea
-        name="comment"
-        placeholder={t('comment')}
-        value={form.comment}
-        onChange={handleChange}
-      />
-      <button type="submit">{t('save')}</button>
-    </form>
+    <div className="container" style={containerStyle}>
+      <form onSubmit={handleSubmit} style={formStyle}>
+        <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Редактировать запись</h2>
+
+        <input
+          type="date"
+          name="date"
+          className="styled-input"
+          value={form.date}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="mood"
+          className="styled-input"
+          placeholder="Настроение"
+          value={form.mood}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          type="text"
+          name="pulse"
+          className="styled-input"
+          placeholder="Пульс"
+          value={form.pulse}
+          onChange={handleChange}
+          required
+        />
+
+        <textarea
+          name="comment"
+          className="styled-input"
+          placeholder="Комментарий"
+          value={form.comment}
+          onChange={handleChange}
+          rows={4}
+        />
+
+        <button type="submit" className="btn btn-primary">Сохранить</button>
+      </form>
+    </div>
   );
+};
+
+const containerStyle = {
+  maxWidth: '600px',
+  margin: '0 auto',
+  padding: '2rem',
+};
+
+const formStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.2rem',
 };
 
 export default EditEntryPage;

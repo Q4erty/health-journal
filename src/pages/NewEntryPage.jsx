@@ -7,13 +7,14 @@ import { useLang } from '../context/LanguageContext';
 const NewEntryPage = () => {
   const { user } = useAuth();
   const { t } = useLang();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     date: '',
     mood: '',
     pulse: '',
     comment: '',
   });
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -34,37 +35,50 @@ const NewEntryPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{t('new_entry')}</h2>
-      <input
-        name="date"
-        type="date"
-        value={form.date}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="mood"
-        placeholder={t('mood')}
-        value={form.mood}
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="pulse"
-        placeholder={t('pulse')}
-        value={form.pulse}
-        onChange={handleChange}
-        required
-      />
-      <textarea
-        name="comment"
-        placeholder={t('comment')}
-        value={form.comment}
-        onChange={handleChange}
-      />
-      <button type="submit">{t('save')}</button>
-    </form>
+    <div className="container" style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <h2 className="text-center mb-4">{t('new_entry')}</h2>
+      <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
+  <input
+    name="date"
+    type="date"
+    value={form.date}
+    onChange={handleChange}
+    required
+    className="input-field"
+  />
+  <input
+    name="mood"
+    type="text"
+    placeholder={t('mood')}
+    value={form.mood}
+    onChange={handleChange}
+    required
+    className="input-field"
+  />
+  <input
+    name="pulse"
+    type="text"
+    placeholder={t('pulse')}
+    value={form.pulse}
+    onChange={handleChange}
+    required
+    className="input-field"
+  />
+  <textarea
+    name="comment"
+    placeholder={t('comment')}
+    value={form.comment}
+    onChange={handleChange}
+    rows="4"
+    className="input-field"
+    style={{ resize: 'none' }}
+  />
+  <button type="submit" className="mt-3">
+    {t('save')}
+  </button>
+</form>
+
+    </div>
   );
 };
 

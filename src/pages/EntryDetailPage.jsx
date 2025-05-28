@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/api';
 import { useParams } from 'react-router-dom';
-import { useLang } from '../context/LanguageContext';
 
 const EntryDetailPage = () => {
   const { id } = useParams();
   const [entry, setEntry] = useState(null);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
-  const { t } = useLang();
 
   useEffect(() => {
     const fetch = async () => {
@@ -32,16 +30,16 @@ const EntryDetailPage = () => {
     setComment('');
   };
 
-  if (!entry) return <p>{t('loading')}...</p>;
+  if (!entry) return <p>Загрузка...</p>;
 
   return (
     <div>
       <h2>{entry.date}</h2>
-      <p><strong>{t('mood')}:</strong> {entry.mood}</p>
-      <p><strong>{t('pulse')}:</strong> {entry.pulse}</p>
-      <p><strong>{t('comment')}:</strong> {entry.comment}</p>
+      <p><strong>Настроение:</strong> {entry.mood}</p>
+      <p><strong>Пульс:</strong> {entry.pulse}</p>
+      <p><strong>Комментарий:</strong> {entry.comment}</p>
 
-      <h3>{t('comments')}</h3>
+      <h3>Комментарии</h3>
       <ul>
         {comments.map((c) => (
           <li key={c.id}>
@@ -50,13 +48,9 @@ const EntryDetailPage = () => {
         ))}
       </ul>
 
-      <textarea
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        placeholder={t('writeComment')}
-      />
+      <textarea value={comment} onChange={(e) => setComment(e.target.value)} />
       <br />
-      <button onClick={addComment}>{t('addComment')}</button>
+      <button onClick={addComment}>Добавить комментарий</button>
     </div>
   );
 };

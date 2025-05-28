@@ -27,20 +27,14 @@ const ProfilePage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAvatarUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setFormData((prev) => ({
-        ...prev,
-        avatar: reader.result,
-      }));
+      setFormData((prev) => ({ ...prev, avatar: reader.result }));
     };
     if (file) reader.readAsDataURL(file);
   };
@@ -48,20 +42,10 @@ const ProfilePage = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const updatedUser = {
-        ...user.user,
-        ...formData
-      };
-
+      const updatedUser = { ...user.user, ...formData };
       await api.patch(`/users/${user.user.id}`, updatedUser);
-
-      dispatch({
-        type: 'UPDATE_USER',
-        payload: updatedUser
-      });
-
+      dispatch({ type: 'UPDATE_USER', payload: updatedUser });
       dispatch({ type: 'LOGOUT' });
-
       alert(t('profile_updated'));
     } catch (err) {
       alert(t('profile_update_error'));
@@ -69,21 +53,28 @@ const ProfilePage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '500px', margin: '0 auto' }}>
-      <h2>{t('profile')}</h2>
-      {formData.avatar && (
-        <img
-          src={formData.avatar}
-          alt="avatar"
-          style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '1rem' }}
-        />
-      )}
-      <form onSubmit={handleUpdate}>
+    <div className="container" style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <h2 className="text-center mb-4">{t('profile')}</h2>
+
+      <div className="text-center mb-4">
+        {formData.avatar && (
+          <img
+            src={formData.avatar}
+            alt="avatar"
+            className="avatar"
+          />
+        )}
+      </div>
+
+      <form onSubmit={handleUpdate} className="d-flex flex-column align-items-center">
         <input
           type="file"
           accept="image/*"
           onChange={handleAvatarUpload}
+          className="mb-3"
+          style={{ maxWidth: '380px' }}
         />
+
         <input
           type="text"
           name="name"
@@ -108,7 +99,10 @@ const ProfilePage = () => {
           onChange={handleChange}
           required
         />
-        <button type="submit">{t('save')}</button>
+
+        <button type="submit" className="mt-3">
+          {t('save')}
+        </button>
       </form>
     </div>
   );

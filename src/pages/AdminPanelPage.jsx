@@ -23,9 +23,9 @@ const AdminPanelPage = () => {
   };
 
   return (
-    <div>
+    <div style={containerStyle}>
       <h2>{t('users')}</h2>
-      <table border="1" cellPadding="10">
+      <table style={tableStyle}>
         <thead>
           <tr>
             <th>ID</th>
@@ -43,7 +43,13 @@ const AdminPanelPage = () => {
               <td>{u.email}</td>
               <td>{u.role}</td>
               <td>
-                <button onClick={() => handleDelete(u.id)}>{t('delete')}</button>
+                <button
+                  className="btn btn-danger"
+                  style={{ padding: '6px 14px', fontSize: '13px' }}
+                  onClick={() => handleDelete(u.id)}
+                >
+                  {t('delete')}
+                </button>
               </td>
             </tr>
           ))}
@@ -51,6 +57,22 @@ const AdminPanelPage = () => {
       </table>
     </div>
   );
+};
+
+const containerStyle = {
+  maxWidth: '900px',
+  margin: '0 auto',
+  padding: '2rem',
+  backgroundColor: 'var(--container-bg)',
+  color: 'var(--container-text)',
+  borderRadius: '12px',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+};
+
+const tableStyle = {
+  width: '100%',
+  borderCollapse: 'collapse',
+  marginTop: '1.5rem',
 };
 
 export default AdminPanelPage;

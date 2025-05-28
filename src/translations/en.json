@@ -51,12 +51,6 @@
     "confirm_delete_user": "Delete this user?",
     "home": "Home",
     "admin": "Admin",
-    "logout": "Logout",
-    "editEntry": "Edit Entry",
-    "entryUpdated": "Entry updated",
-    "loading": "Loading",
-    "comments": "Comments",
-    "writeComment": "Write a comment...",
-    "addComment": "Add comment"
+    "logout": "Logout"
   }
   
